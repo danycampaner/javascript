@@ -1,0 +1,85 @@
+<html>
+    <head>
+    <title>ViaCEP Webservice</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+      .label{
+          font-weight: bold;
+          padding: 5px 20px;
+      }
+      #resultado{
+          background-color:rgb(231, 242, 206);
+          height: 140px;
+          padding: 40px;
+          border: 1px solid rgb(9, 241, 241);
+      }
+  </style>
+  <!-- Adicionando Javascript -->
+  <script>
+
+    function criarLinha(label, value){
+      //cria linha
+      let linha = document.createElement('tr');
+      //cria coluna para label
+      let colunaLabel = document.createElement('td');
+      //adiciona o texto do label na coluna
+      colunaLabel.textContent = label+":";
+      //adiciona a classe css na coluna
+      colunaLabel.classList.add('label');
+      //cria a coluna de valor
+      let colunaValor = document.createElement('td');
+      //adiciona o texto do valor
+      colunaValor.textContent = value;
+      //adiciona as colunas na linha
+      linha.appendChild(colunaLabel);
+      linha.appendChild(colunaValor);
+      //retorna a linha
+      return linha;
+   }
+   
+  function buscarCEP() {
+
+      var cep = document.querySelector('#cep').value.replace(/\D/g, '');
+
+      if(cep.length == 8){
+
+      const xhttp = new XMLHttpRequest();
+
+      xhttp.onload = function() {
+
+          let obj = JSON.parse(this.responseText);
+
+          //cria a tabela
+          let table = document.createElement('table');
+
+          //adiciona as linhas na tabela pegando o retorno da função
+          table.appendChild(criarLinha("Logradouro",obj.logradouro));
+          table.appendChild(criarLinha("Bairro",obj.bairro));
+          table.appendChild(criarLinha("Cidade",obj.localidade));
+          table.appendChild(criarLinha("Estado",obj.uf));
+
+          //adiciona a tabela na pagina
+          let divRetorno = document.querySelector('#resultado');
+          divRetorno.appendChild(table);
+
+      }
+      xhttp.open("GET", 'https://viacep.com.br/ws/'+cep+'/json/', true);
+      xhttp.send();  
+      }
+
+    }
+
+  </script>
+  </head>
+
+  <body>
+  <!-- Inicio do formulario -->
+    <form>
+      <label>CEP:
+      <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"/></label>
+      <input type="button" onclick="buscarCEP()" value="Buscar CEP" /></label>
+    </form>
+    <div id="resultado"></div>
+  </body>
+</html>
+

@@ -1,0 +1,114 @@
+<html>
+<head>
+  <title>Exemplo Objeto</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <style>
+    .container{
+        background-color:azure;
+        height: auto;
+        padding: 40px;
+        border: 1px solid aquamarine;
+    }
+.btn {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13;
+  width: 165px;
+  height: 35px;
+  background-color: #aaa;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #aaa;
+  padding-top: 9px;
+  padding-right: 50px;
+  padding-bottom: 9px;
+  padding-left: 50px;               
+  color: white;
+  text-decoration: none;
+  text-align: center;
+}
+.btn:hover{
+background-color: #bbb;
+border-color: #bbb;
+}
+.btn:active{
+background-color: #999;
+border-color: #aaa;
+}
+</style>
+</head>
+<body>
+  <div id="container" class="container"></div>
+  <div id="container2" class="container"></div>
+  <div id="container3" class="container"></div>
+</body>
+</html>
+<script>
+  function Pessoa(elemento, config){
+  
+//Propriedades
+    this.elemento = elemento;
+    this.nome = config.nome;
+    this.peso = config.peso;
+    this.altura = config.altura;
+ 
+//Metodos
+this.calculaImc = () => {
+        this.imc = (this.peso/(this.altura**2));            
+        if(this.imc < 18.5){
+          this.classificacao = "Abaixo do peso";
+        }else if(this.imc >= 18.5 && this.imc <= 24.9){
+          this.classificacao = "Peso normal";
+        }else if(this.imc >= 25 && this.imc <= 29.9){
+          this.classificacao = "Sobrepeso";
+        }else if(this.imc >= 30 && this.imc <= 34.9){
+          this.classificacao = "Gordinho grau 1";
+        }else if(this.imc >= 35 && this.imc <= 39.9){
+          this.classificacao = "Gordinho grau 2";
+        }else{
+          this.classificacao = "Gordinho grau 3";
+      }
+    }
+ 
+    this.criarLinha = (label,value) => {
+      let linha = document.createElement('tr');
+      let colunaLabel = document.createElement('td');
+      //clicar no botao e abrir um alert:
+  let botao = document.createElement('div');
+      botao.textContent = label;
+      botao.classList.add('btn');
+  botao.addEventListener("click", () => alert(value));
+  colunaLabel.appendChild(botao);
+      let colunaValor = document.createElement('td');
+      colunaValor.textContent = value;
+      linha.appendChild(colunaLabel);
+      linha.appendChild(colunaValor);
+      return linha;
+    };
+this.createTable = () => {
+let table = document.createElement('table');
+table.appendChild(this.criarLinha("Nome",this.nome));
+table.appendChild(this.criarLinha("Peso",this.peso));
+table.appendChild(this.criarLinha("Altura",this.altura));
+table.appendChild(this.criarLinha("IMC",this.imc));
+table.appendChild(this.criarLinha("Classificação",this.classificacao));
+return table;
+}; 
+    this.render = () => {            
+        let container = document.querySelectorAll(this.elemento);
+let self = this;
+container.forEach(function (element) {
+element.appendChild(self.createTable());
+});
+    };
+//Execução na chamada do construtor
+this.calculaImc();
+  }
+  var pessoa = new Pessoa('.div', {
+      nome: 'Leandro',
+      peso: 100.5,
+      altura: 1.82
+  });
+  
+  pessoa.render();
+ 
+</script>

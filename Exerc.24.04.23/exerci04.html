@@ -1,0 +1,55 @@
+<html>
+<head>
+  <title>Consulta CEP</title>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</head>
+<body>
+  <form>
+    <label>Digite o CEP:</label>
+    <input type="text" name="cep" id="cep">
+    <input type="button" value="Buscar" onclick="buscar()">
+  </form>
+  <table id="table">
+    <thead>
+        <tr>
+            <th>Logradouro</th>
+            <th>Complemento</th>
+            <th>Bairro</th>
+            <th>Localidade</th>
+            <th>UF</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <script>
+    $(document).ready(function() {
+      $('#table').DataTable();
+    });
+    function buscar(){
+        var cep = $("#cep").val();
+        $.ajax({
+            url: 'https://viacep.com.br/ws/' + cep + '/json/',
+            success: function(data) {
+                var tr = $("<tr>");
+                tr.append($("<td>").text(data.logradouro));
+                tr.append($("<td>").text(data.complemento));
+                tr.append($("<td>").text(data.bairro));
+                tr.append($("<td>").text(data.localidade));
+                tr.append($("<td>").text(data.uf));
+                $("#table").DataTable().row.add(tr).draw();
+            },
+            error: function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'CEP não encontrado!'
+                  })
+            }
+        });
+    }
+  </script>
+</body>
+</html>

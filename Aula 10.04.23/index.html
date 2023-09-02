@@ -1,0 +1,97 @@
+<html>
+    <head>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+    </head>
+    <form>
+        <label for="nome">Nome</label>
+        <input type="text" id="nome">
+        <label for="email">Email</label>
+        <input type="email" id="email">
+        <label for="idade">Idade</label>
+        <input type="number" id="idade">
+        <button type="button" id="addRow">Add new rew</button>
+    </form>
+    <button id="addRow">Add new row</button>
+    <table id="example" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Idade</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Idade</th>
+            </tr>
+        </tfoot>
+    </table>
+</html>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var t = $('#example').DataTable();
+        var counter = 1;
+   
+        $('#addRow').on('click', function () {
+            var nome = $('#nome').val();
+            var email = $('#email').val();
+            var idade = $('#idade').val();
+
+            /*$.ajax({
+                url: "salva.php",
+                data:{nome,email,idade}
+            });*/
+            
+            if(nome == ""){
+                 Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'O campo nome não pode estar vazio'
+            });
+
+            return;
+
+            }
+
+             if(email == ""){
+                 Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'O campo email não pode estar vazio'
+            });
+
+            return;
+
+            }
+
+             if(idade == ""){
+                 Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'O campo idade não pode estar vazio'
+            });
+
+            return;
+
+            }
+
+            t.row.add([nome, email, idade]).draw(false);
+
+            $('#nome').val('');
+            $('#email').val('');
+            $('#idade').val('');
+
+      
+
+   
+            counter++;
+        });
+    });
+</script>
+

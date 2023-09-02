@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+      <script>
+function criarEvento(){
+    var input = document.getElementById('textoQualquer');
+    input.addEventListener('keyup', function(){
+        var conteudo = document.getElementById('textoQualquer').value;
+            if(conteudo.includes("L")){
+                document.getElementById('textoQualquer').value = "";
+
+    }
+});
+}
+
+    </script>
+    
+</head>
+
+<body onload="criarEvento()">
+  
+   <input id="textoQualquer" type="text" value=""/>
+   
+</body>
+</html>

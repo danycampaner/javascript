@@ -1,0 +1,62 @@
+<html>
+  <head>
+    <title>Calculadora de Juros</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"/>
+  </head>
+  <body>
+    <h1>Calculadora de Juros</h1>
+    <form>
+      Valor da parcela: <input type="text" name="valorParcela" id="valorParcela" /><br>
+      Percentual de juros: <input type="text" name="percentualJuros" id="percentualJuros" /><br>
+      Número de parcelas: <input type="text" name="numParcelas" id="numParcelas" /><br>
+      <input type="button" value="Calcular" onclick="calcular()" />
+    </form>
+    <div>
+      <table id="parcelas" class="display" style="width:100%;">
+        <thead>
+          <tr>
+            <th>Parcela</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </body>
+  <script>
+    $(document).ready(function() {
+      $('#parcelas').DataTable();
+    });
+
+    function calcular(){
+      //limpa o conteúdo da tabela
+      $('#parcelas tbody').html('');
+
+      //Validação dos campos
+      var valorParcela = $('#valorParcela').val();
+      var percentualJuros = $('#percentualJuros').val();
+      var numParcelas = $('#numParcelas').val();
+
+      if (valorParcela == '' || percentualJuros == '' || numParcelas == ''){
+        alert('Todos os campos são obrigatórios');
+        return;
+      }
+
+      if (isNaN(valorParcela) || isNaN(percentualJuros) || isNaN(numParcelas)){
+        alert('Todos os campos devem ser números');
+        return;
+      }
+
+      //calcula os juros
+      var totalParcela = Number(valorParcela);
+      for (var i = 1; i <= numParcelas; i++){
+        var html = '<tr><td>' + i + '</td><td>' + totalParcela.toFixed(2) + '</td></tr>';
+        $('#parcelas tbody').append(html);
+        totalParcela += (totalParcela * (percentualJuros / 100));
+      }
+    }
+  </script>
+</html>

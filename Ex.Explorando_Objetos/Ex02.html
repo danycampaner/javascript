@@ -1,0 +1,71 @@
+<html>
+
+<head>
+    <title>EXERCICIO 02</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+        .container {
+            background-color: azure;
+            height: auto;
+            padding: 40px;
+            border: 1px solid aquamarine;
+        }
+
+        .btn {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13;
+            width: 165px;
+            height: 35px;
+            background-color: #aaa;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #aaa;
+            padding-top: 9px;
+            padding-right: 50px;
+            padding-bottom: 9px;
+            padding-left: 50px;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #bbb;
+            border-color: #bbb;
+        }
+
+        .btn:active {
+            background-color: #999;
+            border-color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container" class="container">Botao 1</div>
+    <div id="container2" class="container">Botao 2</div>
+    <div id="container3" class="container">Botao 3</div>
+</body>
+
+</html>
+<script>
+    function Botao(elemento) {
+        //Propriedades
+        this.elemento = elemento;
+
+        //Metodos
+        this.render = () => {
+            let container = document.querySelectorAll(this.elemento);
+            let self = this;
+            container.forEach(function (element) {
+                element.classList.add('btn');
+                element.addEventListener("click", () => alert(element.innerHTML))
+            });
+        };
+    }
+    var botao = new Botao('.container');
+
+    botao.render();
+
+</script>

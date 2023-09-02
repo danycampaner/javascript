@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+      <script>
+        function btnClick(){
+            alert('teste');
+        }
+
+        function criarEventoClick(){
+        var btn = document.getElementById('botaoQualquer');
+        btn.addEventListener('click', btnClick);
+        } 
+        
+    </script>
+    
+</head>
+
+<body onload="criarEventoClick()">
+
+   <button id="botaoQualquer">Testar</button>
+    
+</body>
+</html>

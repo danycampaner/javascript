@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercicio 01 CEP</title>
+    <style>
+        .container {
+            background-color: azure;
+            height: auto;
+            padding: 40px;
+            border: 1px solid aquamarine;
+        }
+
+        .btn {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13;
+            width: 165px;
+            height: 35px;
+            background-color: #aaa;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #aaa;
+            padding-top: 9px;
+            padding-right: 50px;
+            padding-bottom: 9px;
+            padding-left: 50px;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #bbb;
+            border-color: #bbb;
+        }
+
+        .btn:active {
+            background-color: #999;
+            border-color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container" class="container"></div>
+    <div id="container2" class="container"></div>
+    <div id="container3" class="container"></div>
+</body>
+
+</html>
+<script>
+    function Endereco(elemento, config) {
+
+        //Propriedades
+        this.elemento = elemento;
+        this.cep = config.cep;
+
+        this.logradouro =  'NE';
+        this.complemento =  'NE';
+        this.bairro =  'NE';
+        this.localidade =  'NE';
+        this.uf =  'NE';
+        this.ibge =  'NE';
+        this.gia =  'NE';
+        this.ddd =  'NE';
+        this.siafi =  'NE';
+
+        this.setPropriedades = (retorno) => {
+            this.logradouro =  retorno.logradouro;
+            this.complemento =  retorno.complemento;
+            this.bairro =  retorno.bairro;
+            this.localidade =  retorno.localidade;
+            this.uf =  retorno.uf;
+            this.ibge =  retorno.ibge;
+            this.gia =  retorno.gia;
+            this.ddd =  retorno.ddd;
+            this.siafi =  retorno.siafi;
+        }
+
+        //Metodos
+        this.buscaCep = () => {
+            let ajax = new XMLHttpRequest();
+            let self = this;
+            ajax.onreadystatechange = function () {
+                //console.log(ajax.responseText);
+                if (this.readyState == 4 && this.status == 200) {
+                    let retorno = JSON.parse(ajax.responseText);
+                    //console.log(retorno);
+                    self.setPropriedades(retorno);    
+
+                }
+            }
+            ajax.open("GET", "https://viacep.com.br/ws/"+this.cep+"/json/", false);
+            //executar a chamada
+            ajax.send();
+        }
+
+        this.criarLinha = (label, value) => {
+            let linha = document.createElement('tr');
+            let colunaLabel = document.createElement('td');
+            let botao = document.createElement('div');
+            botao.textContent = label;
+            botao.classList.add('btn');
+            botao.addEventListener("click", () => alert(value));
+            colunaLabel.appendChild(botao);
+            let colunaValor = document.createElement('td');
+            colunaValor.textContent = value;
+            linha.appendChild(colunaLabel);
+            linha.appendChild(colunaValor);
+            return linha;
+        };
+        this.createTable = () => {
+            let table = document.createElement('table');
+            table.appendChild(this.criarLinha("Logradouro", this.logradouro));
+            table.appendChild(this.criarLinha("Complemento", this.complemento));
+            table.appendChild(this.criarLinha("Bairro", this.bairro));
+            table.appendChild(this.criarLinha("Localidade", this.localidade));
+            table.appendChild(this.criarLinha("UF", this.uf));
+            table.appendChild(this.criarLinha("IBGE", this.ibge));
+            table.appendChild(this.criarLinha("Gia", this.gia));
+            table.appendChild(this.criarLinha("DDD", this.ddd));
+            table.appendChild(this.criarLinha("Siafi", this.siafi));
+           
+            return table;
+        };
+        this.render = () => {
+            let container = document.querySelectorAll(this.elemento);
+            let self = this;
+            container.forEach(function (element) {
+                element.appendChild(self.createTable());
+            });
+        };
+        //Execução na chamada do construtor
+        this.buscaCep();
+    }
+    var endereco = new Endereco('#container', {
+        cep: '83823148'
+    });
+
+    endereco.render();
+
+</script>
+
+
+

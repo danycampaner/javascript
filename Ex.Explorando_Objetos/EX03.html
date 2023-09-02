@@ -1,0 +1,85 @@
+<html>
+
+<head>
+    <title>EXERCICIO 03</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+        .container {
+            background-color: azure;
+            height: auto;
+            padding: 40px;
+            border: 1px solid aquamarine;
+        }
+
+        .btn {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13;
+            width: 40px;
+            height: 25px;
+            background-color: #931212;
+            border-style: solid;
+            border-width: 1px;
+            border-color: #aaa;
+            padding: 1px;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            cursor:pointer;
+        }
+
+        .btn:hover {
+            background-color: #9f5050;
+            border-color: #bbb;
+        }
+
+        .btn:active {
+            background-color: #390c0c;
+            border-color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <table border = 1>
+        <tr><td>LINHA 1</td></tr>
+        <tr><td>LINHA 2</td></tr>
+        <tr><td>LINHA3</td></tr>
+    </table>
+</body>
+
+</html>
+<script>
+    function TabelaDinamica(elemento) {
+
+        //Propriedades
+        this.elemento = elemento;
+
+        this.criarColuna = (linha) => {
+            let coluna = document.createElement('td');
+            let botao = document.createElement('div');
+
+            botao.textContent = 'Excluir';
+            botao.classList.add('btn');
+            botao.addEventListener("click", () => linha.remove());
+
+            coluna.appendChild(botao);
+            linha.insertBefore(coluna, linha.children[0]);
+
+            //linha.appendChild(coluna); ADICIONA NO FINAL A LINHA
+        };      
+
+        this.render = () => {
+            let container = document.querySelectorAll(this.elemento+' tr');
+            let self = this;
+            container.forEach(function (element) {
+                self.criarColuna(element);
+            });
+        };
+
+    }
+
+    var tabela = new TabelaDinamica('table');
+
+    tabela.render();
+
+</script>
